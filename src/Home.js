@@ -60,6 +60,14 @@ function Home() {
       }
     }
   }
+  const handleIdChange = (e) => {
+    setId(e.target.value)
+    if (idError) setIdError(false)
+  }
+  const handleCodeChange = (e) => {
+    setCode(e.target.value)
+    if (codeError) setCodeError(false)
+  }
   return (
     <div className="h-screen flex flex-col justify-between">
       <Loading isShow={isLoading} />
@@ -74,7 +82,7 @@ function Home() {
               label="學號"
               variant="outlined"
               value={id}
-              onChange={(e) => setId(e.target.value)}
+              onChange={handleIdChange}
               margin="normal"
               error={idError}
               fullWidth
@@ -85,7 +93,7 @@ function Home() {
               label="查詢碼"
               variant="outlined"
               value={code}
-              onChange={(e) => setCode(e.target.value)}
+              onChange={handleCodeChange}
               margin="normal"
               error={codeError}
               fullWidth

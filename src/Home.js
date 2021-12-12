@@ -169,7 +169,7 @@ function Home() {
         href="https://github.com/narihira2000/Computer-Programming-Score-Inquery"
         target="_blank"
         rel="noreferrer"
-        className="flex self-center justify-center mb-4"
+        className="flex self-center justify-center pb-4"
       >
         <GithubIcon />
       </a>

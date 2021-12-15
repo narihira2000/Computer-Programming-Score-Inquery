@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Paper from '@mui/material/Paper'
@@ -11,7 +11,10 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import GithubIcon from '@mui/icons-material/GitHub'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
 import classNames from 'classnames'
+import { useCookies } from 'react-cookie'
 
 function Home() {
   const [id, setId] = useState('')
@@ -21,14 +24,35 @@ function Home() {
   const [result, setResult] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [studentName, setStudentName] = useState('')
+  const [isRemember, setIsRemember] = useState(false)
+  const [cookies, setCookie, removeCookie] = useCookies(['t'])
   const averageScore =
     result?.map((e) => e.score).reduce((a, b) => a + b, 0) / result?.length
   const apiUrl = process.env.REACT_APP_API_URL
+  useEffect(() => {
+    if (cookies.t) {
+      setId(cookies.t.id)
+      setCode(cookies.t.code)
+      setIsRemember(true)
+    }
+  }, [cookies])
   const handleClick = () => {
     if (id && code && !isLoading) {
       setIdError(false)
       setCodeError(false)
       setIsLoading(true)
+      if (isRemember) {
+        setCookie(
+          't',
+          {
+            id: id,
+            code: code,
+          },
+          { expires: new Date(new Date().setDate(new Date().getDate() + 7)) }
+        )
+      } else {
+        removeCookie('t')
+      }
       fetch(`${apiUrl}?id=${id}&code=${code}`)
         .then((res) => res.json())
         .then((responseJson) => {
@@ -99,7 +123,18 @@ function Home() {
               fullWidth
               required
             />
-            <div className="my-5 w-full">
+            <div className="flex self-start">
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isRemember}
+                    onChange={(e) => setIsRemember(e.target.checked)}
+                  />
+                }
+                label="記住我"
+              />
+            </div>
+            <div className="mt-2 mb-5 w-full">
               <Button variant="contained" fullWidth onClick={handleClick}>
                 送出
               </Button>

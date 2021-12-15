@@ -85,15 +85,15 @@ function Home() {
     }
   }
   const handleIdChange = (e) => {
-    setId(e.target.value)
+    setId(e.target.value.toUpperCase())
     if (idError) setIdError(false)
   }
   const handleCodeChange = (e) => {
-    setCode(e.target.value)
+    setCode(e.target.value.toLowerCase())
     if (codeError) setCodeError(false)
   }
   return (
-    <div className="h-screen flex flex-col justify-between">
+    <div className="min-h-screen flex flex-col justify-between">
       <Loading isShow={isLoading} />
       <div>
         <Paper elevation={2} className="mx-4 my-10">

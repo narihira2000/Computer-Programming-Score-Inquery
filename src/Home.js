@@ -102,7 +102,7 @@ function Home() {
       <div>
         <Paper elevation={2} className="mx-4 my-10">
           <div className="ml-4 py-5 text-2xl">
-            1101計算機程式設計實習 - 成績查詢
+            {process.env.REACT_APP_SITE_NAME}
           </div>
           <div className="flex flex-col items-center px-4">
             <TextField

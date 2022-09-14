@@ -26,12 +26,13 @@ function Home() {
   const [studentName, setStudentName] = useState('')
   const [isRemember, setIsRemember] = useState(false)
   const [cookies, setCookie, removeCookie] = useCookies(['t'])
+  const isFinalAppear = result?.filter((e) => e.title === '期末考').length
   const averageScore =
     result
       ?.filter((e) => e.title !== '期末考')
       .map((e) => e.score)
       .reduce((a, b) => a + b, 0) /
-    (result?.length - 1)
+    (result?.length - isFinalAppear)
   const apiUrl = process.env.REACT_APP_API_URL
   useEffect(() => {
     if (cookies.t) {
@@ -205,7 +206,8 @@ function Home() {
                     'text-red-500': averageScore < 60,
                   })}
                 >
-                  平均(不含期末考): {averageScore.toFixed(2)}
+                  平均{isFinalAppear ? '(不含期末考)' : ''}:{' '}
+                  {averageScore.toFixed(2)}
                 </div>
               </div>
             </Paper>
